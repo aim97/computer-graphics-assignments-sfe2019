@@ -1,3 +1,4 @@
+## Assignment 1
 **program job** : draw some geometric shapes with opengl namely : Pentagon, Hexagon, Heptagon, Octagon, Nonagon, Decagon <br />
 **compilation** : compilation on linux with command > g++ assignment.cpp -lglut -lGLU -lGL <br />
 **running**     : run with command > ./a.out<br />
