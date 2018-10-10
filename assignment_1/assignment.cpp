@@ -51,18 +51,22 @@ void handleResize(int w, int h) {
 }
 
 void drawPolygon(point start, float l, int n){
-    point tmp;
-    vector<point> v;
-    v.pb(start);
-    float angle, theta = 180 - ((n - 2) * 180) / n;
+    point tmp;        // create a tmp point
+    vector<point> v;  // create a vector to be used to hold the points of the polygon
+    v.pb(start);      // add the start point to the vector
+	// angle : this is the slope angle of currently drawn line (created by last point and next one) with x-axis
+	// theta : the angle between two consecutive lines in the same polygon
+	// for n=4 --> theta=90, n=5 --> theta = 72, ...
+    float angle, theta = 180 - ((n - 2) * 180) / n; 
     for(int i = 0;i < n - 1;i++){
-        angle = i * theta;
-        tmp.X = start.X + l * cos(angle * PI / 180);
-        tmp.Y = start.Y + l * sin(angle * PI / 180);
-        v.pb(tmp);
-        start = tmp;
+        angle = i * theta; // get value of angle
+        tmp.X = start.X + l * cos(angle * PI / 180); // compute X value of next point
+        tmp.Y = start.Y + l * sin(angle * PI / 180); // compute Y value of next point
+        v.pb(tmp);                                   // add computed point to vector v
+        start = tmp;                                 // set start to hold the new computed point
     }
     
+	// draw the polygon
     glBegin(GL_POLYGON);
         for(auto cur: v)
             glVertex3f(cur.X, cur.Y, -10.0);
@@ -83,12 +87,18 @@ void drawScene() {
 	      third_row = -2.2;
 	point shift = mp(-0.3, -0.5);
 	
+	// hexagon
 	drawPolygon(mp(colnum + shift.X,first_row + shift.Y), 1.0, 6);
+	// octagon
 	drawPolygon(mp(colnum + shift.X,second_row + shift.Y), 0.8, 8);
+	// decagon
 	drawPolygon(mp(colnum + shift.X,third_row + shift.Y), 0.6, 10);
-
+	
+	// pentagon
 	drawPolygon(mp(-colnum + shift.X,first_row + shift.Y), 1.0, 5);
+	// heptagon
 	drawPolygon(mp(-colnum + shift.X,second_row + shift.Y), 0.8, 7);
+	// nonagon
 	drawPolygon(mp(-colnum + shift.X,third_row + shift.Y), 0.6, 9);
 
 
