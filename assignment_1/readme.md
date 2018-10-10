@@ -5,4 +5,4 @@
 **input**       : no input expected<br />
 **output**      : opens a window and draws the requested shapes in it.
 ## output image 
-![my_output_image](https://raw.githubusercontent.com/username/projectname/branch/path/to/output_window.png)
+![my_output_image](https://github.com/aim97/computer-graphics-assignments-sfe2019/blob/master/assignment_1/output_window.png)
