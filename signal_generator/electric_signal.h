@@ -19,17 +19,24 @@ class Signal{
 private:
 	vector<float> y_points;
 	float params[100];
-	float lvl;
 	float step = 0.0;
 	int type = 0;
+	float lvl = 0.0, amplification = 1.0;
+
 
 	// a * sin(b * (x - c)) + d
 	void handle_sin();
+
 public:
-	Signal(float lvl,int type, ...);
+	Signal(int type, ...);
 	void forward();
 	void reset();
 	void display();
+
+	void increaseAmplification();
+	void decreaseAmplification();
+	void moveUp();
+	void moveDown();
 };
 
 #include "electric_signal.cpp"

@@ -1,14 +1,14 @@
-Signal::Signal(float lvl, int type, ...){
+Signal::Signal(int type, ...){
 	this->type = type;
 	this->step = 0.0;
-	this->lvl = lvl;
 	int count;
+	printf("here\n");fflush(stdout);
 	switch(type){
 		case SIN_SIGNAL:
-			count = 4;
+			count = 2;
 			va_list list;
-		    va_start(list, count); 
-		    for(int j=0; j<4; j++){
+		    va_start(list, count);
+		    for(int j=0; j<count; j++){
 		    	params[j] = (float)va_arg(list, double);
 		    	printf("%f\n", params[j]);
 		    }
@@ -21,11 +21,9 @@ Signal::Signal(float lvl, int type, ...){
 }
 
 void Signal::handle_sin(){
-	float a = params[0],
-	      b = params[1],
-	      c = params[2],
-	      d = params[3],
-	      yv = a * sin(b *(step - c)) + d;
+	float b = params[0],
+	      c = params[1],
+	      yv = sin(b *(step - c));
 	y_points.pb(yv);
 }
 
@@ -47,7 +45,7 @@ void Signal::display(){
 	glColor3f(1.0, 0.0, 0.0);
 	int count = 0;
 	for (vector<float>::reverse_iterator i = y_points.rbegin();i != y_points.rend(); ++i,++count )
-		glVertex3f(-6.0 + count * 0.1 , *i + lvl, -10.0);
+		glVertex3f(-6.0 + count * 0.1 , amplification * (*i) + lvl, -10.0);
 	glEnd();
 	glPopMatrix();
 }
@@ -55,4 +53,22 @@ void Signal::display(){
 void Signal::reset(){
 	y_points.clear();
 	step = 0;
+}
+
+// update methods
+void Signal::increaseAmplification(){
+	amplification *= 1.1;
+}
+
+void Signal::decreaseAmplification(){
+	amplification *= 0.9;
+}
+
+void Signal::moveUp(){
+	lvl += 0.1;
+	printf("value of lvl now is %f\n", lvl);
+}
+
+void Signal::moveDown(){
+	lvl -= 0.1;
 }

@@ -14,7 +14,7 @@
 #define window_length 500
 
 using namespace std;
-Signal* s = new Signal(1.1, 0, 1.0, 1.0, 0.0, 0.0);
+Signal* s = new Signal(0, 1.0, 0.0);
 
 struct RGB{
 	float red, green, blue;
@@ -85,7 +85,22 @@ void handleKeypress(unsigned char key, //The key that was pressed
 	glutPostRedisplay();
 	switch (key){
 		case GLUT_KEY_UP:
-			printf("UP");
+			printf("UP\n");
+			s->moveUp();
+			printf("dfghg\n");
+			exit(0);
+			break;
+		case GLUT_KEY_DOWN:
+			printf("Down\n");
+			s->moveDown();
+			break;
+		case GLUT_KEY_LEFT:
+			printf("Left\n");
+			s->decreaseAmplification();
+			break;
+		case GLUT_KEY_RIGHT:
+			printf("Right\n");
+			s->increaseAmplification();
 			break;
 		case 27: //Escape key
 			printf("escape\n");
@@ -100,6 +115,19 @@ void handleKeypress(int key, //The key that was pressed
 	switch (key){
 		case GLUT_KEY_UP:
 			printf("UP\n");
+			s->moveUp();
+			break;
+		case GLUT_KEY_DOWN:
+			printf("Down\n");
+			s->moveDown();
+			break;
+		case GLUT_KEY_LEFT:
+			printf("Left\n");
+			s->decreaseAmplification();
+			break;
+		case GLUT_KEY_RIGHT:
+			printf("Right\n");
+			s->increaseAmplification();
 			break;
 		case 27: //Escape key
 			printf("escape\n");

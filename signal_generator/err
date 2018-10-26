@@ -1,6 +1,6 @@
-In file included from electric_signal.h:35:0,
+In file included from electric_signal.h:42:0,
                  from assignment.cpp:3:
-electric_signal.cpp: In constructor ‘Signal::Signal(float, int, ...)’:
+electric_signal.cpp: In constructor ‘Signal::Signal(int, ...)’:
 electric_signal.cpp:10:7: warning: second parameter of ‘va_start’ not last named argument [-Wvarargs]
        va_start(list, count);
        ^~~~~~~~
