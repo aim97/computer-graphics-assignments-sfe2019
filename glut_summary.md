@@ -79,8 +79,32 @@ it's called as
                     
                     
 the display or draw scene function itself is what you need to worry about, becuase this is where all the drawing of your  
-window content happen.  
+window content happen, it should be something like this  
 
+      //Draws the 3D scene
+      void drawScene() {
+            //Clear information from last draw
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            
+            glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
+            glLoadIdentity(); //Reset the drawing perspective
+            
+            // drawing code should go here.
+            ...
+            
+            glutSwapBuffers(); //Send the 3D scene to the screen
+      }
+
+now with just that your code won't draw any thing because simply you didn't tell to actually draw any thing (drawscene isn't called yet).  
+we make it called using **glutMainLoop()** function, which is simply an infinite loop, during the first iteration it calls
+drawScene function (bcuase this is the one given to glutDisplayFunc) once, then as long as the scene is not changed,  
+and you didn't ask it to redraw it, it just won't do anything, and from this point forward your code will be mainly  
+depending on: interrupts that are handled like the above ones, and re-drawing the scene by calling **glutPostRedisplay()**
+this function is called (probably from an interrupt handling function like **handlekeypress**) it says the following to  
+**glutMainloop** : "when this interrupt handling function finish, go and call the display function again becuase it seems 
+like some variables are updated here and we want their effect to actually change some stuff in the display behaviour"
+and simply in the next iteration when the handling function does its job the **glutMainLoop** will call the drawscene 
+function agian.
 
 
 
