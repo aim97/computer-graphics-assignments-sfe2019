@@ -70,7 +70,7 @@ here is where you really need to think about what you are doing, openGL provides
               not periodically, in order to make it periodic you have to call it again from with the given   
               function **func**.  
                      
-## openGL display function
+### openGL display function
 this is where you should be making the magic, openGL provides a function **glutDisplayFunc** that takes the function you  
 want to be responsible for the display of your program window content.  
 it's called as  
@@ -96,20 +96,41 @@ window content happen, it should be something like this
       }
 
 now with just that your code won't draw any thing because simply you didn't tell to actually draw any thing (drawscene isn't called yet).  
-we make it called using **glutMainLoop()** function, which is simply an infinite loop, during the first iteration it calls
+we make it called using **glutMainLoop()** function, which is simply an infinite loop, during its first iteration it calls
 drawScene function (bcuase this is the one given to glutDisplayFunc) once, then as long as the scene is not changed,  
-and you didn't ask it to redraw it, it just won't do anything, and from this point forward your code will be mainly  
+and you didn't ask it to redraw it, it just won't do anything, and from this point forward your code will be mainly be  
 depending on: interrupts that are handled like the above ones, and re-drawing the scene by calling **glutPostRedisplay()**
-this function is called (probably from an interrupt handling function like **handlekeypress**) it says the following to  
-**glutMainloop** : "when this interrupt handling function finish, go and call the display function again becuase it seems 
-like some variables are updated here and we want their effect to actually change some stuff in the display behaviour"
+when this function is called (probably from an interrupt handling function like **handlekeypress**) it says the following to 
+**glutMainloop** : *"when this interrupt handling function finish, go and call the display function again becuase it seems 
+like some variables are updated here and we want their effect to actually change some stuff in the display behaviour"*
 and simply in the next iteration when the handling function does its job the **glutMainLoop** will call the drawscene 
 function agian.
+the glutMainLoop is called at the end of the main function with nothing after it (because it's an infinite loop anything 
+after it won't be executed).
 
+      glutMainLoop(); //Start the main loop.  glutMainLoop doesn't return.
+      return 0; //This line is never reached, but just add it so that the compiler wouldn't complain
 
+### a brief on some openGL function
+- [glEnable(GL_DEPTH_TEST)](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glEnable.xml): this function is called inside the initRendering function we just made, it initializes our 
+rendering parameters, now all it does is to make sure an object shows up behind an object in front of it that has already 
+been drawn, which we want to happen.  
+  
+- [gluPerspective(fovy, aspect, Znear, Zfar)](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPerspective.xml) : this function specifies how the user should watch the scene.  
+fovy : controls your perspective angle.  
+aspect : width to height ratio, ratio between current width and height of window, or the ratio between x and y scales
+Znear : this makes any thing close to the user at position of z less than Znear invisible, so as it doesn't fill the screen.
+Zfar : this one removes all objects further than Zfar, because normally you wouldn't see them.
 
+## how drawing works on openGL
 
+### openGL transformations (translation, rotation, and scaling)
 
+### openGL writing text
+
+### openGL light effects
+
+### openGL texture
 
 
 
