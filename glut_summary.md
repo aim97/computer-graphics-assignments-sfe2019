@@ -31,7 +31,8 @@ here is where you really need to think about what you are doing, openGL provides
     and same applies to the rest of the functions to follow.
     
     //Called when a key is pressed
-    // the parameters here will come from openGL itself, so you don't need to worry where or how they will be filled.
+    // the parameters here will come from openGL itself, so you don't need to worry 
+    // where or how they will be filled.
     void handleKeypress(unsigned char key, //The ascii code of the key that was pressed
                         int x, int y) {    //The current mouse coordinates
         // handling code goes here
@@ -43,7 +44,8 @@ here is where you really need to think about what you are doing, openGL provides
     **parameters** : a pointer to a function like this one.  
     
     //Called when the window is resized
-    // this function makes sure to resize the shapes in the drawing area when the window is resized with the same ratio.
+    // this function makes sure to resize the shapes in the drawing area  
+    // when the window is resized with the same ratio.
     // w and h are the new width and height and will be passed to this function by openGL 
     void handleResize(int w, int h) {
         //Tell OpenGL how to convert from coordinates to pixel values
@@ -121,11 +123,53 @@ fovy : controls your perspective angle.
 aspect : width to height ratio, ratio between current width and height of window, or the ratio between x and y scales
 Znear : this makes any thing close to the user at position of z less than Znear invisible, so as it doesn't fill the screen.
 Zfar : this one removes all objects further than Zfar, because normally you wouldn't see them.
+  
+- [glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glClear.xml) : this function is has an important role as it's the one responsible for clearing the screen before you start drawing any thing so it's critical to have it at the start of the display function to make sure it does its job.  
+
+- [glutSwapBuffers()](https://www.opengl.org/resources/libraries/glut/spec3/node21.html): this function Sends the 3D scene to the screen, this means without adding it at the end of the display function nothing will display, so you may want to remember this as well.
+
+- [glColor](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glColor.xml) : glColor is not the function name, 
+but it's more like a family of functions sharing that prefix and used to specify the current color using by openGL, this  
+color will be used by all drawing blocks after it until another one is specified.  
+it takes color value as input which can be rgb or rgba depending on what function you call.  
+for example :  
+glColor3f(): takes 3 float parameters whose values range from 0.0 to 1.0 for red, green, and blue values in order.  
+glColor4ui(): takes 4 uint parameters whose values range from 0 to 255 for red, green, blue, and alpha values in order.  
+glColor4fv(): takes a pointer to a float array of size 4, holding the values of rgba of the color in order.  
+generally the function name should be something like glColor\[3/4]\[data_type]
+where 3 and 4 depends on how you want to represent the color rgb or rgba.
+and data_type is either how you want to enter the color values: f->float, ui->uint, s->short ...etc
 
 ## how drawing works on openGL
+the code to draw shapes with openGL is a block like code, it starts with **gLBegin** and ends with **glEnd**, and between 
+those two you may add the vertices of the shape you want to draw, this is its simplest form.
+      
+    glBegin(GL_QUADS); //Begin quadrilateral coordinates
+    
+    //Trapezoid
+    glVertex3f(-0.7f, -1.5f, -5.0f);
+    glVertex3f(0.7f, -1.5f, -5.0f);
+    glVertex3f(0.4f, -0.5f, -5.0f);
+    glVertex3f(-0.4f, -0.5f, -5.0f);
+    
+    glEnd(); //End quadrilateral coordinates
+    
+- it's not only vertices that can go between begin and end, you can make loops and other code as well including 
+other openGL function normally, but mainly vertices are what matters here.
+- make sure the z value is between zNear and Zfar specified by the gluPerspective function so that it can be seen.
+- as you see above the parameter sent to glBegin() is the one determining the types of shapes to be drawn within that
+drawing block, which in this case quadrilateral shapes (GL_QUADS), other shapes can be drawn as well like.  
+  - GL_POINTS for points
+  - GL_LINES for lines
+  - GL_LINE_STRIP for drawing a line string passing through all points in order
+  - GL_LINE_LOOP for drawing a line string passing through all points in order and ends at its start
+  - you can check the rest of its [documentation](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glBegin.xml).
+- drawing blocks doesn't draw one object only like one quadrilateral, or one line, it depends on how many vertices you  
+provide to it, for example if you are using GL_QUADS: it will group each consecutive 4 vertices into 1 quadrilateral, so
+if you provide 16 vertices it will draw 4 quadrilaterals.
 
 ### openGL transformations (translation, rotation, and scaling)
-
+in those transformations we are not actually moving the shapes them selves but the coordinates we are drawing on,
 ### openGL writing text
 
 ### openGL light effects
