@@ -25,7 +25,7 @@ the implementation is as follows
 this part should go after the initialization in the program main function.
 here is where you really need to think about what you are doing, openGL provides some function to handle interrrupts  
 
-1 - glutKeyboardFunc(handleKeypress):  
+1 - **glutKeyboardFunc(handleKeypress):**  
     **role** : this one handles the event of key being pressed on mouse click.  
     **parameters** : a pointer to a function like this one, it must have the same return type and parameters types,  
     and same applies to the rest of the functions to follow.
@@ -39,7 +39,7 @@ here is where you really need to think about what you are doing, openGL provides
         ...
     }
     
-2 - glutReshapeFunc(handleResize):  
+2 - **glutReshapeFunc(handleResize):**  
     **role** : this function handles the event of user trying to resize the program window  
     **parameters** : a pointer to a function like this one.  
     
@@ -62,7 +62,7 @@ here is where you really need to think about what you are doing, openGL provides
     }
     
     
-3 - glutTimerFunc(unsigned int msecs, void (*func)(int value), value):  
+3 - **glutTimerFunc(unsigned int msecs, void (\*func)(int value), value):**  
     **role** : this function is responsible for running a function AFTER a specific number of seconds. (handles a timer interrupt)  
     **parameters** :  
     -- msecs : the number of milliseocnds to wait (wait not sleep) before running the given function  
@@ -170,6 +170,50 @@ if you provide 16 vertices it will draw 4 quadrilaterals.
 
 ### openGL transformations (translation, rotation, and scaling)
 in those transformations we are not actually moving the shapes them selves but the coordinates we are drawing on,
+it's done by 3 transformation functions as follows:
+- [glTranslate](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glTranslate.xml):  
+  glTranslatef (for float parameters), and glTranslated (for double parameters), this function is used to translate the
+  axis from (0, 0, 0) to the given coordinates, each of them takes 3 parameters for new origin x,y, and z respectively.
+
+- [glRotate](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glRotate.xml):
+  glRotatef (for float parameters), and glRotate (for double parameters), this function is used to rotate the
+  axis with a given angle around the given vector, it takes 4 parameters : angle of rotation, and x, y & z values for the 
+  vector to rotate around it.
+  
+- [glScale](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glScale.xml):
+  glScalef (for float parameters), and glScaled (for double parameters), this function is used to scale the
+  axis respictive lengths, it takes 3 parameters, the scale values in all x, y, and z.
+  
+as stated above those functions only affect the axes, so how will we use them to move shapes, we will simply have to do
+the following steps
+1 - apply transformations
+2 - draw shape
+3 - reverse transformations
+
+in code 
+
+      glPushMatrix(); // this function stores the current state of axes, ..etc to stack
+      // apply transformations
+      ...;
+      // draw shapes that we want to apply those tranformations to them
+      ...;
+      glPopMatrix();
+      
+- [glPushMatrix()](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glPushMatrix.xml): it's called to store  
+the current state of our axes.
+
+- [glPopMatrix()](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glPushMatrix.xml): it's called to retrieve 
+the previous state of our axes.
+
+* by those two functions used to envelope our transformations in between make sure the transformations we made will only 
+affect the objects drawn within that block only, and will be automatucally discarded outside the block.
+* this way we can draw all shapes being drawn at the origin initially without caring about size of location then we can 
+generally draw the same object over and over, and at each time have it moved to the correct spot, with the needed 
+orientation and scale.
+* it's also worth mentioning that the order in which the transformations occur actually matter at least for translation, 
+usually you want to translate first then rotate for example which won't give the same output if order is reversed, but as 
+for rotation and scaling the order between them doesn't actually matter.  
+
 ### openGL writing text
 
 ### openGL light effects
