@@ -12,9 +12,9 @@ write the following code as the first thing in main function, it's just initiali
       
     //Create the window  
     glutCreateWindow("window title"); // this sets the title of the program window  
-    initRendering(); //Initialize rendering (this is not a built-in function)  
+    initRendering(); //Initialize rendering
 
-the implementation is as follows  
+init rendering is not a built in function, the implementation is as follows  
     
     void initRendering() {  
         //Makes 3D drawing work when something is in front of something else  
@@ -24,6 +24,18 @@ the implementation is as follows
 ### openGL the real deal
 this part should go after the initialization in the program main function.
 here is where you really need to think about what you are doing, openGL provides some function to handle interrrupts  
+like keypress, mouse click, timer, resize, if you need to specify something for your program to do as handling to  
+such interrupt you want to tell openGL what to do in these cases by giving a functions to be executed in handling those interrupts, as following:  
+      
+      // the function "handlekeypress" is called for handling keypress or mouse click
+      glutKeyboradFunc(handlekeypress);
+      // the function "handleResize" is called for handling user attempt to resize window
+      glutReshapeFunc(handleResize); 
+      // the function "timer" is called after "msec" with parameter "value"
+      glutTimerFunc(msec, timer, value); 
+      
+and here is how those functions operate in more details.
+**note : you can more than 1 timer as you wish.**  
 
 1 - **glutKeyboardFunc(handleKeypress):**  
     **role** : this one handles the event of key being pressed on mouse click.  
@@ -71,6 +83,7 @@ here is where you really need to think about what you are doing, openGL provides
     **note**  : this function calls the given function AFTER the given time period is passed only once,  
               not periodically, in order to make it periodic you have to call it again from with the given   
               function **func**.  
+              
                      
 ### openGL display function
 this is where you should be making the magic, openGL provides a function **glutDisplayFunc** that takes the function you  
