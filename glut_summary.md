@@ -215,7 +215,21 @@ usually you want to translate first then rotate for example which won't give the
 for rotation and scaling the order between them doesn't actually matter.  
 
 ### openGL writing text
+openGL provides some useful functions for writing text on screen, not many font types though but it should do,  
+for now we will stick to this function here which simply writes the given string s to the specified location  
+using the specified font.  
+you may find those links interseting :  
+- [glutBitmapCharacter](https://www.opengl.org/resources/libraries/glut/spec3/node76.html)
+- [text section repo](https://github.com/HalaBadr/Computer_Graphic/tree/master/Text?fbclid=IwAR1WaiRae10wUcUqMBqH8Q1j0NztYjw2Xu78rP__G7cnl8XlPi5jI-AzcQ4)
+- [seems useful](http://jeromebelleman.gitlab.io/posts/devops/gltext/)
 
+      void renderbitmap(float x, float y, float z, void *font, string s) {
+            glRasterPos3f(x, y, z);
+            for (int i = 0; i < s.size(); i++) {
+                  glutBitmapCharacter(font, (int)s[i]);
+            }
+      }
+      
 ### openGL light effects
 
 ### openGL texture
