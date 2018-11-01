@@ -133,14 +133,14 @@ void draw_player(){
 
 
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
+	if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
     	printf("closing window");
         glfwSetWindowShouldClose(window, GLFW_TRUE);
     }else if(key == GLFW_KEY_RIGHT){
     	player_location.X = min(player_location.X + 0.02, 0.9);
     }else if(key == GLFW_KEY_LEFT){
     	player_location.X = max(player_location.X - 0.02, -0.9);
-    }else if(key == GLFW_KEY_KP_ENTER && game_state == STOPED){
+    }else if((key == GLFW_KEY_KP_ENTER || key == GLFW_KEY_ENTER)  && game_state == STOPED){
     	reset_game();
     }
 }
