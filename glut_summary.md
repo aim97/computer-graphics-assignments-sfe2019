@@ -1,4 +1,11 @@
 # openGL-glut
+## compilation command on linux
+      g++ -std=c++14 main.cpp -o program -lglut -lGLU -lGL 
+-std=c++14 : c++ version to be used for compilation  
+main.cpp : your cpp source file, if there are others add them as well  
+-o program : specifies the name for output program you to be created  
+-lglut -lGLU -lGL : openGL flags **required** for compilation for openGL.  
+
 ## essential libraries :
 for apple : <OpenGL/OpenGL.h>, <GLUT/glut.h>  
 for any thing else : <GL/glut.h>  
