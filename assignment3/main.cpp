@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
 
 	// ---------------------------------------------------------------------------------------
 	//Create Window
-	window = glfwCreateWindow(screenWidth, screenHieght, "GLFW demo", NULL, NULL);
+	window = glfwCreateWindow(screenWidth, screenHieght, "Astroids", NULL, NULL);
 	if (!window){
 		fprintf(stderr, "ERROR : program window couldn't be rendered\nprogram terminated\n");
 		glfwTerminate();
