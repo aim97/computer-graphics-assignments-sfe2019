@@ -10,6 +10,8 @@ using namespace std;
 #define mp make_pair
 #define pb push_back
 
+#define GLFW_ALPHA_MASK 0x00021010
+
 // GAME STATES
 #define RUNNING 0
 #define STOPED 1
@@ -42,11 +44,13 @@ void renderbitmap(float x, float y, float z, void *font, string s);
 void positions_update(int v = 1);
 void add_astroids(int v = 1);
 void reset_game();
+void back_ground();
 
 int main(int argc, char** argv) {
 	srand( (unsigned)time( NULL ) );
 	//Initialize GLUT  
 	glutInit(&argc, argv);  // argc and argv are command line arguments  
+	//glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 
 	//initilize library
 	if (!glfwInit()) {
@@ -61,6 +65,7 @@ int main(int argc, char** argv) {
 	// setting the necessary versions of openGL used when compiling and executing the program
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	glfwWindowHint(GLFW_ALPHA_MASK, GL_TRUE);
 	// ---------------------------------------------------------------------------------------
 
 	// ---------------------------------------------------------------------------------------
@@ -81,8 +86,15 @@ int main(int argc, char** argv) {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+	//glClearColor(0.1,0.0,0.1,0.0);
+	glEnable(GL_BLEND);
+	//glEnable(GL_DEPTH_TEST);
+
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		back_ground();
 		switch(game_state){
 			case RUNNING:
 				game_screen();
@@ -111,8 +123,21 @@ void drawCircle(float r) {
 }
 
 void draw_astroid(){
-	glColor3f(0.5f, 0.5f, 0.0f);
+	glPushMatrix();
+	glTranslatef(0.0,0.15,0.0);
+	glColor4f(0.5f, 0.5f, 0.0f, 0.4f);
+	drawCircle(0.02);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0,0.06,0.0);
+	glColor4f(0.5f, 0.5f, 0.0f, 0.7f);
+	drawCircle(0.05);
+	glPopMatrix();
+
+	glColor4f(0.5f, 0.5f, 0.0f, 0.8f);
 	drawCircle(0.08);
+	
 	glColor3f(0.5f, 0.0f, 0.0f);
 	drawCircle(0.05);
 }
@@ -226,4 +251,15 @@ void reset_game(){
 	astroids.clear();
 	player_location = mp(0.0, -0.8);
 	game_state = RUNNING;
+}
+
+void back_ground(){
+	float x = 1.0;
+	glColor4f(0.1, 0.0, 0.1, 0.5);
+	glBegin(GL_QUADS);
+	glVertex3f(x, x, 0);
+	glVertex3f(x, -x, 0);
+	glVertex3f(-x, -x, 0);
+	glVertex3f(-x, x, 0);
+	glEnd();
 }
