@@ -1,7 +1,9 @@
 #include "gameManager.h"
 
 // constructor
-GameManager::GameManager(){
+GameManager::GameManager(){}
+
+void GameManager::initALL(){
 	SM = SceneManager();
 	SM.glut_init();
 	player.set(mp(0.0, -Y_LIM + 0.5), 0);
@@ -24,7 +26,7 @@ void GameManager::game_screen(){
 	char buf[20];
 	sprintf(buf, "%lld", player.score);
 	glColor4f(1.0, 1.0, 0.0, 1.0);
-	SM.render_bit_map(X_LIM - 1,Y_LIM - 1,0, GLUT_BITMAP_TIMES_ROMAN_24, buf);
+	SM.render_bit_map(X_LIM - 1, Y_LIM - 1, 0, GLUT_BITMAP_TIMES_ROMAN_24, buf);
 
 	// display astroids
 	for(auto i : astroids){
@@ -191,15 +193,8 @@ bool GameManager::KB_handler(unsigned char key, int x, int y){
 }
 
 void GameManager::resize_handler(int w, int h){
-	//Tell OpenGL how to convert from coordinates to pixel values
 	glViewport(0, 0, w, h);
-
-	glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective
-
-	//Set the camera perspective
-	glLoadIdentity(); //Reset the camera
-	gluPerspective(45.0,                  //The camera angle
-		(double)w / (double)h, //The width-to-height ratio
-		1.0,                   //The near z clipping coordinate
-		200.0);                //The far z clipping coordinate
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0, (float)w / (float)h, 1.0, 200.0);
 }

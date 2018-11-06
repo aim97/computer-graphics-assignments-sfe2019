@@ -33,17 +33,19 @@ GLuint SceneManager::loadTexture(Image* image) {
 	return textureId; //Returns the id of the texture
 }
 
-
 // public static member functions
 void SceneManager::glut_init(){
 	glEnable(GL_DEPTH_TEST); // allow depth
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  // make sure to allow blinding for 4D colors
-	glEnable(GL_BLEND); // enable blinding 
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  // make sure to allow blinding for 4D colors
+	//glEnable(GL_BLEND); // enable blinding 
 	glEnable(GL_LIGHTING); 
 	glEnable(GL_LIGHT0);
 	glEnable(GL_NORMALIZE);
-	glEnable(GL_COLOR_MATERIAL);
-	
+	//glEnable(GL_COLOR_MATERIAL);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+
 	// read the required textures
 	Image* image1 = loadBMP("space.bmp");
 	GLuint background_texture = loadTexture(image1);
@@ -82,7 +84,7 @@ void SceneManager::draw_astroid(){
 	draw_circle(astroid_raduis);
 	glPopMatrix();
 	
-
+	
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, tex[ASTROID_TEX]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -96,14 +98,14 @@ void SceneManager::draw_astroid(){
 	glTexCoord2f(0.0, 0.0);glVertex3f(-astroid_raduis, -astroid_raduis, 0);
 	glEnd();
 
+	glDisable(GL_TEXTURE_2D);
+	
+
 	glColor4f(0.5f, 0.5f, 0.0f, 0.8f);
 	draw_circle(astroid_raduis * 1.4);
 	
 	glColor3f(0.5f, 0.0f, 0.0f);
 	draw_circle(astroid_raduis);
-
-
-	glDisable(GL_TEXTURE_2D);
 }
 
 void SceneManager::draw_space_ship(){
@@ -124,7 +126,10 @@ void SceneManager::draw_space_ship(){
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
-
+	
+	glColor4f(0.0, 1.0, 0.0, 0.7);
+	draw_circle(0.35);
+	/*
 	glBegin(GL_TRIANGLES);
 	glColor3f(0.0, 0.0, 0.5);
 	glVertex3f(-0.35, 0, 0);
@@ -136,11 +141,13 @@ void SceneManager::draw_space_ship(){
 	glVertex3f(0.1, 0, 0);
 	glVertex3f(0, 0.35, 0);
 	glEnd();
+	*/
 }
 
 void SceneManager::draw_back_ground(float lvl){
 	glPushMatrix();
 	glTranslatef(0, 0, lvl);
+	
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, tex[BACKGROUND_TEX]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -151,8 +158,11 @@ void SceneManager::draw_back_ground(float lvl){
 	glBegin(GL_QUADS);
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0.0, 1.0);glVertex3f(-x, x, 0);
+	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(1.0, 1.0);glVertex3f(x, x, 0);
+	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(1.0, 0.0);glVertex3f(x, -x, 0);
+	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0.0, 0.0);glVertex3f(-x, -x, 0);
 	glEnd();
 

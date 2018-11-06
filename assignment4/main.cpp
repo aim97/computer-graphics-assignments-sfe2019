@@ -36,7 +36,8 @@ int main(int argc, char** argv){
 	glutCreateWindow("ASTROIDS");
 
 	gm = GameManager();
-
+	gm.initALL();
+	
 	// set handlers for time, keyboard, resize
 	glutDisplayFunc(display);
 	glutKeyboardFunc(KB_handler);

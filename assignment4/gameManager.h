@@ -70,6 +70,8 @@ private:
 
 public:
 	GameManager();
+
+	void initALL();
 	void runGame();
 
 	void timer_update_astroids(int v);
