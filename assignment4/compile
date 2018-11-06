@@ -1,0 +1,3 @@
+g++ -std=c++14 main.cpp gameManager.cpp sceneManager.cpp imageloader.cpp \
+    -o program \
+    -lglut -lGLU -lGL 2> err

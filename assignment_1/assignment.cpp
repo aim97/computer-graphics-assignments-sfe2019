@@ -23,6 +23,7 @@ using namespace std;
 //Called when a key is pressed
 void handleKeypress(unsigned char key, //The key that was pressed
 	int x, int y) {    //The current mouse coordinates
+	printf("%d\n", key);
 	switch (key) {
 	case 27: //Escape key
 		exit(0); //Exit the program
